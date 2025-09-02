@@ -1,0 +1,72 @@
+[
+    {
+        "name":" Fortis Hospital Mohali",
+        "address":"Sector 62, Phase VIII, Sahibzada Ajit Singh Nagar, Punjab 160062",
+        "phone":"+91 17246 92222",
+        "latitude":30.7046,
+        "longitude":76.7179
+    },
+    {
+        "name":"Max Super Speciality Hospital Mohali",
+        "address":"Phase VI, Mohali, Punjab 160055",
+        "phone":"+91 17266 52000",
+        "latitude":30.6986,
+        "longitude":76.7181
+    },
+    {
+         "name":"Silver Oaks Hospital",
+        "address":"Phase IX, Mohali, Punjab 160062",
+        "phone":"+91 17250 98888",
+        "latitude":30.7124,
+        "longitude":76.7165
+    },
+    {
+         "name":"Civil Hospital Mohali",
+        "address":"Phase VI, Mohali, Punjab 160055",
+        "phone":"+91 17222 17300",
+        "latitude":30.7070,
+        "longitude":76.7170
+    },
+    {
+        "name": "PGIMER Chandigarh",
+        "address": "Sector 12, Chandigarh, 160012",
+        "phone": "+91 17227 46018",
+        "latitude": 30.7520,
+        "longitude": 76.7660
+    },
+    {
+        "name": "Government Multi-Specialty Hospital",
+        "address": "Sector 16, Chandigarh, 160016",
+        "phone": "+91 17227 82457",
+        "latitude": 30.7415,
+        "longitude": 76.7724
+    },
+    {
+        "name": "Indus Hospital",
+        "address": "Sector 55, Chandigarh, 160055",
+        "phone": "+91 17250 44944",
+        "latitude": 30.7049,
+        "longitude": 76.7952
+    },
+    {
+         "name": "Alchemist Hospital Panchkula",
+        "address": "Sector 21, Panchkula, Haryana 134112",
+        "phone": "+91 17225 60666",
+        "latitude": 30.6915,
+        "longitude": 76.8496
+    },
+    {
+        "name": "Ojas Hospital Panchkula",
+        "address": "SCO 1-2-3, Sector 26, Panchkula, Haryana 134116",
+        "phone": "+91 17266 11100",
+        "latitude": 30.6800,
+        "longitude": 76.8570
+    },
+    {
+         "name": "Civil Hospital Panchkula",
+        "address": "Sector 6, Panchkula, Haryana 134109",
+        "phone": "+91 17225 62545",
+        "latitude": 30.6943,
+        "longitude": 76.8548
+    }
+]
