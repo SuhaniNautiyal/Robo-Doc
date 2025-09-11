@@ -13,12 +13,14 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'robodoc_emergency_2024'  # Change in production
 CORS(app)
 
+def snake_to_camel(s):
+    parts = s.split('_')
+    return parts[0] + ''.join(word.capitalize() for word in parts[1:])
 
 @app.route('/')
 def index():
     """Main page"""
     return render_template('index.html')
-
 
 @app.route('/analyze', methods=['POST'])
 def analyze_symptoms():
@@ -28,7 +30,7 @@ def analyze_symptoms():
         print("DEBUG: Received data from frontend:", data)
 
         if not isinstance(data, dict):
-            return jsonify({"error": "Invalid request format. Expected JSON object."}), 400
+            return jsonify({'success': False, 'error': 'Invalid request format. Expected JSON object.'}), 400
 
         symptoms = data.get('symptoms', '')
         language = data.get('language', 'en')
@@ -38,12 +40,14 @@ def analyze_symptoms():
 
         result = ml_analyzer.analyze(translated_symptoms)
 
-        return jsonify({'success': True, 'analysis': result})
+        # Convert snake_case keys to camelCase for frontend
+        result_camel = {snake_to_camel(k): v for k, v in result.items()}
+
+        return jsonify({'success': True, 'analysis': result_camel})
 
     except Exception as e:
         print(f"Error in analyze_symptoms: {e}")
         return jsonify({'success': False, 'error': str(e)}), 500
-
 
 @app.route('/hospitals/nearby')
 def nearby_hospitals():
@@ -72,7 +76,6 @@ def nearby_hospitals():
 
     return jsonify({'success': True, 'hospitals': hospitals, 'center': {'lat': lat, 'lng': lng}})
 
-
 @app.route('/ai-status')
 def ai_status():
     """Check if AI components are ready"""
@@ -88,7 +91,6 @@ def ai_status():
             'Feedback system'
         ]
     })
-
 
 @app.route('/feedback', methods=['POST'])
 def feedback():
@@ -116,16 +118,13 @@ def feedback():
         app.logger.error(f"Error storing feedback: {str(e)}")
         return jsonify({'success': False, 'error': 'Failed to store feedback'}), 500
 
-
 @app.errorhandler(404)
 def not_found(error):
     return jsonify({'error': 'Endpoint not found'}), 404
 
-
 @app.errorhandler(500)
 def internal_error(error):
     return jsonify({'error': 'Internal server error'}), 500
-
 
 if __name__ == '__main__':
     if not os.path.exists('data'):
