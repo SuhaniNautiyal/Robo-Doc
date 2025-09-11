@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🤖 RoboDoc - Emergency Medical Assistant</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Emergency Header -->
+        <header class="emergency-header">
+            <div class="logo">
+                <i class="fas fa-robot"></i>
+                <h1>RoboDoc</h1>
+            </div>
+            <div class="emergency-badge">
+                <i class="fas fa-exclamation-triangle"></i>
+                <span>EMERGENCY READY</span>
+            </div>
+        </header>
+
+        <!-- Main Emergency Interface -->
+        <main class="main-interface">
+            <div class="emergency-notice">
+                <h2>🚨 Medical Emergency?</h2>
+                <p>Get immediate first aid guidance - No account required</p>
+                <div class="emergency-contacts">
+                    <button class="emergency-btn" onclick="callEmergency()">
+                        <i class="fas fa-phone"></i> Call 112 (Emergency)
+                    </button>
+                </div>
+            </div>
+
+            <!-- Symptom Input Section -->
+            <section class="symptom-checker">
+                <div class="input-container">
+                    <h3>Describe the symptoms:</h3>
+                    <div class="input-methods">
+                        <!-- Text Input -->
+                        <div class="text-input-section">
+                            <textarea 
+                                id="symptomInput" 
+                                placeholder="Example: chest pain, difficulty breathing, severe headache..."
+                                rows="4"
+                            ></textarea>
+                            
+                            <!-- Voice Input Button -->
+                            <div class="voice-section">
+                                <button id="voiceBtn" class="voice-btn" onclick="toggleVoice()">
+                                    <i class="fas fa-microphone"></i>
+                                    <span id="voiceText">Voice Input</span>
+                                </button>
+                                <span id="voiceStatus" class="voice-status"></span>
+                            </div>
+                        </div>
+
+                        <!-- AI Toggle -->
+                        <div class="ai-toggle">
+                            <label>
+                                <input type="checkbox" id="useAI" checked>
+                                Enable AI-Enhanced Analysis
+                            </label>
+                        </div>
+
+                        <!-- Image Upload -->
+                        <div class="image-upload">
+                            <label for="imageInput" class="upload-label">
+                                <i class="fas fa-camera"></i> Upload Symptom Image
+                            </label>
+                            <input type="file" id="imageInput" accept="image/*" onchange="handleImageUpload()" style="display:none;">
+                            <div id="imagePreview" class="image-preview"></div>
+                        </div>
+                        
+                        <!-- Action Buttons -->
+                        <div class="action-buttons">
+                            <button class="analyze-btn" onclick="analyzeSymptoms()">
+                                <i class="fas fa-search"></i>
+                                <span id="analyzeText">Analyze Symptoms</span>
+                            </button>
+                            <button class="clear-btn" onclick="clearInput()">
+                                <i class="fas fa-eraser"></i>
+                                Clear
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Results Section -->
+            <section id="resultsSection" class="results-section" style="display: none;">
+                <div class="result-container">
+                    <div id="riskLevel" class="risk-assessment"></div>
+                    <div id="firstAid" class="first-aid-instructions"></div>
+                    <div id="recommendations" class="recommendations"></div>
+                    <div id="aiInsights" class="ai-insights" style="display:none;"></div>
+                    <div id="imageResults" class="image-results" style="display:none;"></div>
+                    
+                    <!-- Post-Analysis Options -->
+                    <div class="post-analysis">
+                        <button class="save-session-btn" onclick="saveSession()">
+                            <i class="fas fa-save"></i>
+                            Save This Session
+                        </button>
+                        <button class="find-help-btn" onclick="findNearbyHelp()">
+                            <i class="fas fa-hospital"></i>
+                            Find Nearby Help
+                        </button>
+                        <button class="feedback-btn" onclick="showFeedbackModal()">
+                            <i class="fas fa-comment"></i>
+                            Give Feedback
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Quick Access Tools -->
+            <section class="quick-tools">
+                <h3>Quick Emergency Tools</h3>
+                <div class="tool-grid">
+                    <button class="tool-btn" onclick="showFirstAidGuide()">
+                        <i class="fas fa-first-aid"></i>
+                        <span>First Aid Guide</span>
+                    </button>
+                    <button class="tool-btn" onclick="findHospitals()">
+                        <i class="fas fa-hospital-alt"></i>
+                        <span>Find Hospitals</span>
+                    </button>
+                    <button class="tool-btn" onclick="showEmergencyContacts()">
+                        <i class="fas fa-phone-alt"></i>
+                        <span>Emergency Contacts</span>
+                    </button>
+                    <button class="tool-btn" onclick="showAccountBenefits()">
+                        <i class="fas fa-user-plus"></i>
+                        <span>Create Account</span>
+                    </button>
+                </div>
+            </section>
+        </main>
+
+        <!-- Loading Overlay -->
+        <div id="loadingOverlay" class="loading-overlay" style="display: none;"></div>
+    </div>
+
+    <!-- Feedback Modal -->
+    <div id="feedbackModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close" onclick="closeFeedbackModal()">&times;</span>
+            <h2>Rate Your Experience</h2>
+            <div class="feedback-form">
+                <div class="star-rating">
+                    <span class="star" data-rating="1">☆</span>
+                    <span class="star" data-rating="2">☆</span>
+                    <span class="star" data-rating="3">☆</span>
+                    <span class="star" data-rating="4">☆</span>
+                    <span class="star" data-rating="5">☆</span>
+                </div>
+                <textarea id="feedbackText" placeholder="How was the analysis? Any suggestions for improvement?"></textarea>
+                <div class="feedback-options">
+                    <label>
+                        <input type="checkbox" id="analysisHelpful" checked>
+                        The analysis was helpful
+                    </label>
+                </div>
+                <button onclick="submitFeedback()" class="submit-feedback-btn">Submit Feedback</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
